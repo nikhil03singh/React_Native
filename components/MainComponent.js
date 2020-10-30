@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import { View, Platform, Text, ScrollView, Image, StyleSheet } from 'react-native';
-import Menu from './MenuComponent';
-import Dishdetail from './DishdetailComponent';
 import Home from './HomeComponent';
-import Contact from './ContactComponent';
 import About from './AboutComponent';
+import Menu from './MenuComponent';
+import Contact from './ContactComponent';
+import Dishdetail from './DishdetailComponent';
+import Reservation from './ReservationComponent';
+import { View, Platform, Text, ScrollView, Image, StyleSheet } from 'react-native';
 import { createStackNavigator, createDrawerNavigator, DrawerItems, SafeAreaView } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
+
 
 const mapStateToProps = state => {
     return {
@@ -100,6 +102,24 @@ const AboutNavigator = createStackNavigator({
     })
 });
 
+const ReservationNavigator = createStackNavigator({
+    Reservation: { screen: Reservation }
+}, {
+    navigationOptions: ({ navigation }) => ({
+        headerStyle: {
+            backgroundColor: "#512DA8"
+        },
+        headerTitleStyle: {
+            color: "#fff"
+        },
+        headerTintColor: "#fff",
+        headerLeft: <Icon name="menu" size={24}
+            iconStyle={{ color: 'white' }}
+            onPress={() => navigation.navigate('DrawerToggle')} />
+    })
+});
+
+
 const CustomDrawerContentComponent = (props) => (
     <ScrollView>
         <SafeAreaView style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>
@@ -175,6 +195,22 @@ const MainNavigator = createDrawerNavigator({
                     type='font-awesome'
                     size={24}
                     color={tintColor}
+                />
+            ),
+        }
+    },
+    Reservation:
+    {
+        screen: ReservationNavigator,
+        navigationOptions: {
+            title: 'Reserve Table',
+            drawerLabel: 'Reserve Table',
+            drawerIcon: ({ tintColor, focused }) => (
+                <Icon
+                    name='cutlery'
+                    type='font-awesome'
+                    size={24}
+                    iconStyle={{ color: tintColor }}
                 />
             ),
         }
